@@ -1,0 +1,96 @@
+<nav class="navbar navbar-default" role="navigation">
+	<div class="container-fluid">
+		<div class="topbar">
+			<h1>Verja Forum</h1>
+			<div class="searchbox">
+				<form class="searchText">
+					<div class="input-group input-group-sm">
+						<input ng-model="$ctrl.searchText" type="search" class="form-control" placeholder="search topics ...">
+						<span class="input-group-btn">
+							<button class="btn btn-default" type="button"><i class="glyphicon glyphicon-search"></i></button>
+						</span>
+					</div>
+				</form>
+			</div>
+			<login-buttons></login-buttons>
+		</div>
+	</div>
+</nav>
+
+<section class="container-fluid">
+	<form class="comments" ng-submit="$ctrl.addComment($ctrl.newComment)">
+		<h4><data-count-topics ng-hide="$ctrl.faq">( {{ $ctrl.countTopics }} )</data-count-topics> {{ $ctrl.category }}:
+			<span class="category faq" ng-click="$ctrl.faqView(comment)">FAQ</span>
+			<span>&nbsp;&nbsp;&bull;&nbsp;&nbsp;</span>
+			<span class="category topics" ng-click="$ctrl.topicsView(comment)">Topics</span> 
+		</h4>
+		<div class="input-group input-group-sm" ng-show="$ctrl.currentUser" ng-hide="$ctrl.faq"> 
+			<input ng-model="$ctrl.newComment" type="text" class="form-control" placeholder="discussion topics..." />
+			<span class="input-group-btn">
+				<button class="btn btn-default" type="submit">Submit</button>
+			</span> 
+		</div>
+	</form>
+	
+	<ul ng-hide="$ctrl.faq">
+		<li class="highlight-top">
+			<label class="hide-completed" ng-show="$ctrl.currentUser">
+				<input type="checkbox" ng-model="$ctrl.hideCompleted" />
+				Hide Checked Topics
+			</label>
+			<dir-pagination-controls on-page-change="$ctrl.pageChanged(newPageNumber)"></dir-pagination-controls>
+		</li>
+		<li dir-paginate="comment in $ctrl.comments | itemsPerPage:$ctrl.perPage | orderBy: '-createdAt'" total-items="$ctrl.countTopics" ng-class="{'checked': comment.checked, 'private': comment.private}">
+			<input type="checkbox" ng-checked="comment.checked" ng-click="$ctrl.setChecked(comment)" />
+			<span ng-class="{'text':comment.replys}" ng-click="$ctrl.openReplyBox(comment)">{{comment.text}}</span> - <span>{{comment.username}}</span>
+			<button class="btn btn-default btn-xs" ng-click="$ctrl.setReplyToComment(comment)">reply</button>
+			<button class="btn btn-default btn-xs delete" ng-click="$ctrl.removeComment(comment)" ng-show="comment.owner === $ctrl.currentUser._id">&times; delete comment</button>
+			<button class="btn btn-default btn-xs toggle-private" ng-click="$ctrl.setPrivate(comment)" ng-show="comment.owner === $ctrl.currentUser._id">
+				{{comment.private === true ? "Private" : "Public"}}
+			</button>
+			<span ng-show="{{comment.replys}}">( replies: {{comment.replys.length}} )</span>
+			<div class="reply" ng-class="{'set':comment.reply}">
+				<form class="replyToComments">
+					<div class="input-group input-group-sm" ng-show="{{!$ctrl.error}}"> 
+						<textarea id="test" class="form-control" ng-model="comment.newReply" type="text" placeholder="reply..."></textarea>
+						<span class="input-group-addon btn btn-primary" ng-click="$ctrl.replyToComment(comment, comment.newReply)">Reply</span>
+					</div>
+					<p class="text-danger" ng-show="{{$ctrl.error}}">To reply, please sign in!</p>
+				</form>
+			</div>
+			<ul class="reply-box" ng-class="{'unset':comment.replys[0].repliedAt}">
+				<li ng-repeat="reply in comment.replys track by $index">
+					{{reply.newReply}} - by <span>{{reply.replyOwnerName}}</span> at <span>{{reply.repliedAt | date:'h:mm a on d/M/yyyy'}}</span>
+					<!-- Add reply button!! - {{reply.newReply}} - <button ng-click="$ctrl.setReplyToReply(comment, reply.repliedAt)" class="btn btn-default btn-xs">Reply 2</button> by {{reply.replyOwnerName}} at {{reply.repliedAt | date:'h:m on d/M/yyyy'}} -->
+					<div class="hidden">
+						{{reply.replysReply}} - <button ng-click="$ctrl.setReplyToReply(comment)" class="btn btn-default btn-xs">Reply</button> by {{reply.replyOwnerName}} at {{reply.repliedAt | date:'h:m on d/M/yyyy'}}
+					</div>
+			 	</li>
+			 </ul>
+		</li>
+		<li class="highlight-bottom">
+			<dir-pagination-controls on-page-change="$ctrl.pageChanged(newPageNumber)"></dir-pagination-controls>
+		</li>
+	</ul>
+</section>
+
+<section id="faq" class="container-fluid" ng-show="$ctrl.faq">
+	<ul>
+		<li class="highlight-top"></li>
+		<li>
+			<h4>Should I use <em>sudo</em> when running terminal commands install or meteor?</h4>
+			<p>No, these commands are local to your project and do not require globalizing, ie - npm or meteor. 
+				If you do not have a requirement such as Node on your machine go to the official site and do a proper install based on those directions.
+				When running the install or run commands <em>sudo</em> is not necessary.
+			</p>
+		</li>
+		<li>
+			<h4>What if I have Homebrew installed on my machine?</h4>
+			<p>If you have homebrew installed you may need to run this command from the <a href="https://www.meteor.com/install" target="_blank">https://www.meteor.com/install</a> page prior to running the install cmd
+			 	as homebrew involves a slightly different set up:
+			 	<code>curl https://install.meteor.com/ | sh</code>
+			</p>
+		</li>
+		<li class="highlight-bottom"></li>
+	</ul>
+</section>

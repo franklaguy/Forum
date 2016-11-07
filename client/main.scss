@@ -1,0 +1,55 @@
+/* VERJA FORUMS - BUSINESS INSIDER TECH - Date: 6/20/2016 - Author: R. Lewis */
+/* Open Source - Verja Api */
+/* *********************** */
+
+@import '{reywood:bootstrap3-sass}/bootstrap';
+
+.container { margin:0 auto; }
+h4 { padding-left:10px; padding-right:10px; }
+h4 span { float:right; color:#185f7d; }
+h4 .category:hover { text-decoration:underline; cursor:pointer; }
+
+/* *** Header - begin *** */
+.topbar h1 { float:left; padding-left:13px; margin-bottom:20px; color:#fff; }
+.topbar a { color:#cecece; }
+.navbar .container-fluid { position:relative; background-color:#185f7d; border-radius:0 0 4px 4px; }
+
+.topbar { text-align:right; width:97%; }
+.topbar .searchbox { margin-left:10px; }
+.topbar .top-nav, .topbar .searchbox, login-buttons {
+    display: inline-block;
+    vertical-align: middle;
+	margin: 23px 3px 10px 13px;
+}
+.searchbox { width:30%; }
+#login-dropdown-list { left:-145px; }
+#login-buttons .login-button, .accounts-dialog .login-button { background-color:#31708F; }
+#login-buttons .login-button:hover, .accounts-dialog .login-button:hover { background-color:rgba(49, 112, 143, 0.83); }
+.hide-completed { float:left; padding-top:10px; }
+/* *** Header - end *** */
+
+.container-fluid { padding:0; }
+
+ul { padding:0; }
+li {list-style:none;overflow:hidden;display:block; padding:3px 13px; border-left:1px solid #e1e1e8;  border-right:1px solid #e1e1e8;}
+
+.topic span.text:hover { text-decoration:underline; cursor:pointer; }
+
+.reply-box li { border-bottom:1px solid #e1e1e8 }
+.reply {display:none}
+.reply.set, .reply.error {display:block;padding-left:2%;overflow:hidden;}
+.reply-box { display:none; margin-top:3px; padding-left:4%;background-color:#f6f2e8;}
+.reply-box.unset { display:block;overflow:hidden;}
+.reply-box.unset span, .text span { color:#185f7d; }
+.hidden {display:none}
+
+/* *** Pagination *** */
+.highlight-top { text-align:right; padding:9px 14px; margin:13px 0 0; background-color:#f7f7f9; border:1px solid #e1e1e8; border-radius:4px 4px 0 0; }
+.highlight-bottom { text-align:right; padding:9px 14px; margin:0 0 13px; background-color:#f7f7f9; border:1px solid #e1e1e8; border-radius:0 0 4px 4px; }
+ul.pagination { margin:5px 0 0; }
+ul.pagination li { padding:0; border:0; }
+/* *** Pagination *** */
+
+/* *** FAQ *** */
+#faq h4 { padding-left:0 }
+/* *** FAQ *** */
